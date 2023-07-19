@@ -1,10 +1,11 @@
 import axios from 'axios';
+const prodURL: string = "https://tictactoe-api-dfux.onrender.com/api/v1";
 
-const baseURL: string = "http://localhost:8080/api/v1";
+//const baseURL: string = "http://localhost:8080/api/v1";
 const JWT = localStorage.getItem("JWT");
 
 const api_url = axios.create({
-    baseURL: baseURL,
+    baseURL: prodURL,
     headers: {
         "Content-type": "application/json",
         "Authorization": "Bearer " + JWT
