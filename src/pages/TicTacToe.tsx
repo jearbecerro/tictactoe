@@ -9,7 +9,7 @@ import { addResult, getResults } from "../api";
 const board = [[0, 1, 2], [3, 4, 5], [6, 7, 8]];
 
 export const TicTacToe = (props: any) => {
-    const { players, setplayers, setlist } = props;
+    const { players, setplayers, setlist, setloadlist } = props;
     const { playerX, playerO } = players;
     
     const [state, setState] = useState<Array<string | null>>(Array(9).fill(null));
@@ -88,7 +88,7 @@ export const TicTacToe = (props: any) => {
             const added = await addResult(payload);
             if (added) {
                 clear()
-                getResults(setlist);
+                getResults(setlist, setloadlist);
             } else {
                 setloading(false);
             }

@@ -1,27 +1,31 @@
 import axios from 'axios';
 const prodURL: string = "https://tictactoe-api-dfux.onrender.com/api/v1";
 
-//const baseURL: string = "http://localhost:8080/api/v1";
+const baseURL: string = "http://localhost:8080/api/v1";
 const JWT = localStorage.getItem("JWT");
 
 const api_url = axios.create({
-    baseURL: prodURL,
+    baseURL:  false ? baseURL: prodURL,
     headers: {
         "Content-type": "application/json",
         "Authorization": "Bearer " + JWT
     }
 })
 
-export const getResults = async (setlist : any) => {
+export const getResults = async (setlist : any, setloadlist: any) => {
     try {
+        setloadlist(true);
         const results = await api_url.get('/results');
         if(results.status!==200){
             setlist(null);
+            setloadlist(false);
         }
         setlist(results.data);
+        setloadlist(false);
     } catch (err: any) {
         console.log(err.message);
         setlist(null);
+        setloadlist(false);
     }
 }
 

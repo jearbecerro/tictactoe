@@ -21,10 +21,10 @@ export const Home = () => {
     };
 
     const [list, setlist] = useState(null);
-
+    const [loadlist, setloadlist] = useState(false);
 
     useEffect(() => {
-        getResults(setlist);
+        getResults(setlist, setloadlist);
     }, [])
 
     return (
@@ -39,11 +39,11 @@ export const Home = () => {
                             className="card"
                             style={{ width: isMobile ? "100%" : "70%" }}
                         >
-                            <Results list={list} gameScores={gameScores} setgameScores={setgameScores} />
+                            <Results list={list} gameScores={gameScores} setgameScores={setgameScores} loadlist={loadlist} />
                         </Card>
                     </Col>
                     :
-                    <TicTacToe players={players} setplayers={setplayers} setlist={setlist} />
+                    <TicTacToe players={players} setplayers={setplayers} setlist={setlist} setloadlist={setloadlist} />
             }
             {/**Form Modal */}
             <ModalForm showForm={showForm} setshowForm={setshowForm} setplayers={setplayers} />
@@ -55,7 +55,7 @@ export const Title = (props: any) => {
 
     return <Row>
         <Col xs={24} lg={12} md={24} className="title">
-            <span>List of Game Results</span>
+            <span style={{ fontSize: isMobile? 15 : 25 }}>List of Game Results</span>
         </Col>
         <Col xs={24} lg={12} md={24}>
             <Button
@@ -70,7 +70,7 @@ export const Title = (props: any) => {
 };
 
 export const Results = (props: any) => {
-    const { list, gameScores, setgameScores } = props;
+    const { list, loadlist, gameScores, setgameScores } = props;
 
     const calculateWinner = (val: any, scores: any) => {
         try {
@@ -96,13 +96,13 @@ export const Results = (props: any) => {
             console.log(err.message);
             return ""
         }
-    }
+    };
 
     const columns: Array<Object> = [
         {
             title: 'Date',
             render: (val: any) => (
-                <span>{moment(val.createDAt).format("MMM DD, YYYY @ hh:mm A")}</span>
+                <span>{moment(val.createAt).format("MMM DD, YYYY @ hh:mm A")}</span>
             ),
             width: "25%"
         },
@@ -136,7 +136,7 @@ export const Results = (props: any) => {
                 </Row>
             )
         }
-    ]
+    ];
     const mobileColumns: Array<Object> = [
         
         {
@@ -166,13 +166,15 @@ export const Results = (props: any) => {
                 </Row>
             )
         }
-    ]
+    ];
+
     return <>
     <Table
         columns={isMobile? mobileColumns: columns}
         size="large"
         className="ant-list-box table-responsive bg-white"
         dataSource={list}
+        loading={loadlist}
     />
     {
         gameScores!==null&&<ViewResults gameScores={gameScores} setgameScores={setgameScores} />
@@ -223,6 +225,7 @@ export const ModalForm = (props: any) => {
 
 
     return <Modal
+        //centered
         open={showForm}
         onCancel={closeForm}
         footer={<Button
