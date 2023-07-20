@@ -195,7 +195,7 @@ export const ViewResults = (props: any) => {
             }}
             footer={null}
             title={"View Game Result"}
-            width={"80%"}
+            width={isMobile? "100%" : "80%"}
         >
             <ViewGame isXTurn={null} playerX={playerX} playerO={playerO} scores={scores} />
         </Modal>
