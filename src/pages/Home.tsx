@@ -102,7 +102,7 @@ export const Results = (props: any) => {
         {
             title: 'Date',
             render: (val: any) => (
-                <span>{moment(val.createAt).format("MMM DD, YYYY @ hh:mm A")}</span>
+                <span>{moment(val.createdAt).format("MMM DD, YYYY @ hh:mm A")}</span>
             ),
             width: "25%"
         },
